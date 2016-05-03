@@ -6,6 +6,8 @@ function resolvePath(name) {
   // TODO: a real resolution algorithm, search node_modules?
   if (name === 'ucfirst') {
     path = 'file:///Users/admin/games/voxeljs/cjs4web/node_modules/ucfirst/ucfirst.js';
+  } else if (name === 'asarray') {
+    path = 'file:///Users/admin/games/voxeljs/cjs4web/node_modules/asarray/asarray.js';
   }
   return path;
 }

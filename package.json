@@ -9,6 +9,7 @@
   "author": "deathcap <deathcap@gmx.co.uk>",
   "license": "MIT",
   "dependencies": {
+    "asarray": "^0.1.0",
     "ucfirst": "^1.0.0"
   }
 }
