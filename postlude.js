@@ -1,19 +1,21 @@
 (() => {
 'use strict';
 
-function getScriptPath() {
+function getPriorScript() {
   // Get the script executed directly before us
   const scripts = document.getElementsByTagName('script');
   const moduleScript = scripts[scripts.length - 2];
-  const src = moduleScript.src;
 
-  return src;
+  return moduleScript;
 }
 
 function saveModule() {
-  const path = getScriptPath();
-  console.log(`saving ${path}`);
-  window.__modules[path] = module;
+  const script = getPriorScript();
+  //const path = script.src;
+  const name = script.getAttribute('data-module-name');
+
+  console.log(`saving ${name}`);
+  window.__modules[name] = module;
 }
 
 saveModule();
