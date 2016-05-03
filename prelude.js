@@ -33,4 +33,7 @@ window.exports = {};
 window.module = {
   exports: window.exports,
 };
+
+window.__modules = window.__modules || {};
+window.__allowedGlobals = Object.keys(window);
 })();
