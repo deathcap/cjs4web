@@ -1,4 +1,4 @@
 'use strict';
 
 const ucfirst = require('ucfirst');
-console.log(ucfirst('hello world'));
+document.write(ucfirst('hello world'));
