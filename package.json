@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "asarray": "^0.1.0",
-    "ucfirst": "^1.0.0"
+    "ucfirst": "^1.0.0",
+    "uniq": "^1.0.1"
   }
 }

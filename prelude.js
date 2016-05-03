@@ -8,6 +8,8 @@ function resolvePath(name) {
     path = 'file:///Users/admin/games/voxeljs/cjs4web/node_modules/ucfirst/ucfirst.js';
   } else if (name === 'asarray') {
     path = 'file:///Users/admin/games/voxeljs/cjs4web/node_modules/asarray/asarray.js';
+  } else if (name === 'uniq') {
+    path = 'file:///Users/admin/games/voxeljs/cjs4web/node_modules/uniq/uniq.js';
   }
   return path;
 }
