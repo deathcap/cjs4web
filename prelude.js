@@ -20,8 +20,28 @@ window.module = {
   exports: window.exports,
 };
 
-window.__filename = 'TODO: __filename'; // string
-window.__dirname = 'TODO: __dirname'; // string
+function getRunningScript() {
+  const scripts = document.getElementsByTagName('script');
+  const script = scripts[scripts.length - 1];
+  return script;
+}
+
+delete window.__filename;
+Object.defineProperty(window, '__filename', {
+  configurable: true,
+  get: () => {
+    return getRunningScript().src;
+  },
+});
+
+delete window.__dirname;
+Object.defineProperty(window, '__dirname', {
+  configurable: true,
+  get: () => {
+    return getRunningScript().src; // TODO: strip off last path element
+  },
+});
+
 window.global = window;
 window.process = 'TODO: process'; // module
 window.Buffer = 'TODO: Buffer'; // module
