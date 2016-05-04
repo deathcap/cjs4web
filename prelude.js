@@ -43,8 +43,16 @@ Object.defineProperty(window, '__dirname', {
 });
 
 window.global = window;
+/* TODO: the Buffer and process modules
 window.process = 'TODO: process'; // module
-window.Buffer = 'TODO: Buffer'; // module
+delete window.Buffer;
+Object.defineProperty(window, 'Buffer', {
+  configurable: true,
+  get: () => {
+    return require('buffer');
+  },
+});
+*/
 
 window.__modules = window.__modules || {};
 })();

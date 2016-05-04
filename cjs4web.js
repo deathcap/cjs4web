@@ -18,7 +18,9 @@ const insertGlobalVars =
   // needed for CommonJS modles
   'require,exports,module' +
   // other Node.js default globals, from --insert-global-vars https://github.com/substack/node-browserify
-  ',__filename,__dirname,process,Buffer,global';
+  ',__filename,__dirname,global';
+  // TODO: these globally-available modules, available even without require()
+  //',process,Buffer';
 
 
 // TODO: switch to promises
@@ -50,8 +52,13 @@ function processPackage(dir, outRoot) {
         // Wrap all modules in a closure
         const newData = `((${insertGlobalVars}) => {${data}\n})(${insertGlobalVars});`;
 
-        fs.writeFile(outFile, newData, (err) => {
-          if (err) throw err;
+        const dirname = path.dirname(outFile);
+        fs.mkdir(dirname, (err) => { // TODO: mkdirp
+          //if (err) throw err;
+
+          fs.writeFile(outFile, newData, (err) => {
+            if (err) throw err;
+          });
         });
       });
     });
