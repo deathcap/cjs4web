@@ -27,5 +27,4 @@ window.process = 'TODO: process'; // module
 window.Buffer = 'TODO: Buffer'; // module
 
 window.__modules = window.__modules || {};
-window.__allowedGlobals = Object.keys(window);
 })();
