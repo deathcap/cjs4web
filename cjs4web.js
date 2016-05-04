@@ -12,7 +12,6 @@ if (process.argv.length < 3) {
 
 const root = process.argv[2] || '.';
 
-const node_modules = path.join(root, 'node_modules');
 const outRoot = path.join(root, 'build');
 
 const insertGlobalVars = 
@@ -27,26 +26,11 @@ fs.mkdir(outRoot, (err) => {
   //if (err) throw err;
 
   processPackage(root, outRoot);
-
-  fs.mkdir(path.join(outRoot, 'node_modules'), (err) => {
-    //if (err) throw err;
-
-    fs.readdir(node_modules, (err, dirs) => {
-      if (err) throw err;
-
-      for (let i = 0; i < dirs.length; ++i) {
-        const dir = path.join(node_modules, dirs[i]);
-
-        processPackage(dir, outRoot);
-        // TODO: recurse into dependency packages
-      }
-    });
-  });
 });
 
 function processPackage(dir, outRoot) {
+  // Process top-level file
   const package_json = path.join(dir, 'package.json'); // TODO: read index.js if not present
-
   fs.readFile(package_json, 'utf8', (err, jsonData) => {
     if (err) throw err;
 
@@ -69,6 +53,26 @@ function processPackage(dir, outRoot) {
         fs.writeFile(outFile, newData, (err) => {
           if (err) throw err;
         });
+      });
+    });
+  });
+
+  // If package has a node_modules, recurse into it
+  const node_modules = path.join(dir, 'node_modules');
+  fs.access(node_modules, fs.F_OK, (err) => {
+    if (err) return; // has no node_modules
+
+    fs.mkdir(path.join(outRoot, 'node_modules'), (err) => {
+      //if (err) throw err;
+
+      fs.readdir(node_modules, (err, dirs) => {
+        if (err) throw err;
+
+        for (let i = 0; i < dirs.length; ++i) {
+          const dir = path.join(node_modules, dirs[i]);
+
+          processPackage(dir, outRoot);
+        }
       });
     });
   });
