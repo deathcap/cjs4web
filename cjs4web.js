@@ -26,6 +26,8 @@ const insertGlobalVars =
 fs.mkdir(outRoot, (err) => {
   //if (err) throw err;
 
+  processPackage(root, outRoot);
+
   fs.mkdir(path.join(outRoot, 'node_modules'), (err) => {
     //if (err) throw err;
 
@@ -34,20 +36,23 @@ fs.mkdir(outRoot, (err) => {
 
       for (let i = 0; i < dirs.length; ++i) {
         const dir = path.join(node_modules, dirs[i]);
-        const package_json = path.join(dir, 'package.json');
 
-        processPackage(package_json, dir, outRoot);
+        processPackage(dir, outRoot);
+        // TODO: recurse into dependency packages
       }
     });
   });
 });
 
-function processPackage(package_json, dir, outRoot) {
+function processPackage(dir, outRoot) {
+  const package_json = path.join(dir, 'package.json'); // TODO: read index.js if not present
+
   fs.readFile(package_json, 'utf8', (err, jsonData) => {
     if (err) throw err;
 
     const json = JSON.parse(jsonData);
     const main = path.join(dir, json['main'] || 'index.js');
+    // TODO: read other non-main packages
 
     fs.readFile(main, 'utf8', (err, data) => {
       if (err) throw err;
