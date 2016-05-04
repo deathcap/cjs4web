@@ -36,33 +36,35 @@ fs.mkdir(outRoot, (err) => {
         const dir = path.join(node_modules, dirs[i]);
         const package_json = path.join(dir, 'package.json');
 
-        fs.readFile(package_json, 'utf8', (err, jsonData) => {
-          if (err) throw err;
-
-          const json = JSON.parse(jsonData);
-          const main = path.join(dir, json['main'] || 'index.js');
-
-          fs.readFile(main, 'utf8', (err, data) => {
-            if (err) throw err;
-
-            const outDir = path.join(outRoot, dir);
-            fs.mkdir(outDir, (err) => {
-              //if (err) throw err;
-
-              const outFile = path.join(outRoot, main);
-
-              // Wrap all modules in a closure
-              const newData = `((${insertGlobalVars}) => {${data}\n})(${insertGlobalVars});`;
-
-              fs.writeFile(outFile, newData, (err) => {
-                if (err) throw err;
-              });
-            });
-          });
-
-          console.log(main);
-        });
+        processPackage(package_json, dir, outRoot);
       }
     });
   });
 });
+
+function processPackage(package_json, dir, outRoot) {
+  fs.readFile(package_json, 'utf8', (err, jsonData) => {
+    if (err) throw err;
+
+    const json = JSON.parse(jsonData);
+    const main = path.join(dir, json['main'] || 'index.js');
+
+    fs.readFile(main, 'utf8', (err, data) => {
+      if (err) throw err;
+
+      const outDir = path.join(outRoot, dir);
+      fs.mkdir(outDir, (err) => {
+        //if (err) throw err;
+
+        const outFile = path.join(outRoot, main);
+
+        // Wrap all modules in a closure
+        const newData = `((${insertGlobalVars}) => {${data}\n})(${insertGlobalVars});`;
+
+        fs.writeFile(outFile, newData, (err) => {
+          if (err) throw err;
+        });
+      });
+    });
+  });
+}
