@@ -1,7 +1,7 @@
 'use strict';
 
 const ucfirst = require('ucfirst');
-document.write(ucfirst('hello world'));
+console.log(ucfirst('hello world'));
 
 const asarray = require('asarray');
 console.log(asarray([1,2,3]));
@@ -9,4 +9,8 @@ console.log(asarray([1,2,3]));
 const uniq = require('uniq');
 console.log(uniq([1, 1, 2, 2, 3, 5]));
 
-console.error(typeof unique_pred); // expect to be undefined if require('uniq') doesn't leak globals
+if (typeof unique_pred !== 'undefined') { 
+  console.error('global leak!'); // require('uniq') shouldn't leak globals
+}
+
+console.log('buffer=',new Buffer('ABC'));
