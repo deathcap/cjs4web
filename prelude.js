@@ -20,6 +20,12 @@ window.module = {
   exports: window.exports,
 };
 
+window.__filename = 'TODO: __filename'; // string
+window.__dirname = 'TODO: __dirname'; // string
+window.global = window;
+window.process = 'TODO: process'; // module
+window.Buffer = 'TODO: Buffer'; // module
+
 window.__modules = window.__modules || {};
 window.__allowedGlobals = Object.keys(window);
 })();

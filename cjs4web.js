@@ -15,6 +15,13 @@ const root = process.argv[2] || '.';
 const node_modules = path.join(root, 'node_modules');
 const outRoot = path.join(root, 'build');
 
+const insertGlobalVars = 
+  // needed for CommonJS modles
+  'require,exports,module' +
+  // other Node.js default globals, from --insert-global-vars https://github.com/substack/node-browserify
+  ',__filename,__dirname,process,Buffer,global';
+
+
 // TODO: switch to promises
 fs.mkdir(outRoot, (err) => {
   //if (err) throw err;
@@ -45,8 +52,7 @@ fs.mkdir(outRoot, (err) => {
               const outFile = path.join(outRoot, main);
 
               // Wrap all modules in a closure
-              const exposedVariables = 'require,exports,module';
-              const newData = `((${exposedVariables}) => {${data}\n})(${exposedVariables});`;
+              const newData = `((${insertGlobalVars}) => {${data}\n})(${insertGlobalVars});`;
 
               fs.writeFile(outFile, newData, (err) => {
                 if (err) throw err;
