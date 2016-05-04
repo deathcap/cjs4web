@@ -3,13 +3,15 @@
   "version": "0.0.1",
   "description": "",
   "main": "hello.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:deathcap/cjs4web.git"
   },
   "author": "deathcap <deathcap@gmx.co.uk>",
   "license": "MIT",
   "dependencies": {
     "asarray": "^0.1.0",
+    "buffer": "^4.6.0",
     "ucfirst": "^1.0.0",
     "uniq": "^1.0.1"
   }
